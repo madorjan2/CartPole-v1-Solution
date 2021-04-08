@@ -13,6 +13,22 @@ DISCRETE_OS_SIZE = [25, 25] #our dimensions
 real_observation_space = np.array([env.observation_space.high[2], 3.5]) #disregarding cart data
 discrete_os_win_size = (real_observation_space * 2 / DISCRETE_OS_SIZE) #step-size inside our discrete observation space
 
+#Helper function to get true max velocities
+def get_max_velocity(env):
+    max_velo_cart = 0
+    max_velo_pole = 0
+    env.reset()
+    done = False
+    while not done:
+        new_state, _, done, _ = env.step(1)
+        if (abs(new_state[1]) > max_velo_cart):
+            max_velo_cart = abs(new_state[1])
+        if abs(new_state[3]) > max_velo_pole:
+            max_velo_pole = abs(new_state[3])
+        env.render()
+    print(f"Max_velo_cart={max_velo_cart}")
+    print(f"Max_velo_pole={max_velo_pole}")
+
 def get_discrete_state(state):
     trimmed_state = np.array([state[2], state[3]])
     discrete_state = (trimmed_state + real_observation_space) / discrete_os_win_size
@@ -69,21 +85,3 @@ for episode in range(EPISODES):
     #Decay epsilon
     if END_DECAY >= episode >= START_DECAY:
         epsilon -= epsilon_decay_by
-
-#Helper function to get true max velocities
-def get_max_velocity(env):
-    max_velo_cart = 0
-    max_velo_pole = 0
-    env.reset()
-    done = False
-    while not done:
-        new_state, _, done, _ = env.step(1)
-        if (abs(new_state[1]) > max_velo_cart):
-            max_velo_cart = abs(new_state[1])
-        if abs(new_state[3]) > max_velo_pole:
-            max_velo_pole = abs(new_state[3])
-        env.render()
-    print(f"Max_velo_cart={max_velo_cart}")
-    print(f"Max_velo_pole={max_velo_pole}")
-
-get_max_velocity(env)
