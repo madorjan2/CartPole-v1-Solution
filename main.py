@@ -37,7 +37,7 @@ for episode in range(EPISODES):
     else:
         render = False
 
-    #Reseting the environment as well as getting state 0
+    #Resetting the environment as well as getting state 0
     discrete_state = get_discrete_state(env.reset())
     done = False
 
@@ -74,15 +74,15 @@ for episode in range(EPISODES):
 def get_max_velocity(env):
     max_velo_cart = 0
     max_velo_pole = 0
-    for i in range(1000):
-        env.reset()
-        done = False
-        while not done:
-            new_state, _, done, _ = env.step(1)
-            if (abs(new_state[1]) > max_velo_cart):
-                max_velo_cart = abs(new_state[1])
-            if abs(new_state[3]) > max_velo_pole:
-                max_velo_pole = abs(new_state[3])
+    env.reset()
+    done = False
+    while not done:
+        new_state, _, done, _ = env.step(1)
+        if (abs(new_state[1]) > max_velo_cart):
+            max_velo_cart = abs(new_state[1])
+        if abs(new_state[3]) > max_velo_pole:
+            max_velo_pole = abs(new_state[3])
+        env.render()
     print(f"Max_velo_cart={max_velo_cart}")
     print(f"Max_velo_pole={max_velo_pole}")
 
