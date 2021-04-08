@@ -85,5 +85,3 @@ def get_max_velocity(env):
         env.render()
     print(f"Max_velo_cart={max_velo_cart}")
     print(f"Max_velo_pole={max_velo_pole}")
-
-get_max_velocity(env)
